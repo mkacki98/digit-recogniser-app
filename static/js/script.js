@@ -5,7 +5,7 @@ var loc = window.location.pathname
 var dir = loc.substring(0, loc.lastIndexOf('/'))
 
 function setup() {
-    createCanvas(280, 280)
+    canvas = createCanvas(280, 280)
     strokeWeight(10)
 
     var options = createDiv().style("display: flex")
@@ -21,7 +21,30 @@ function draw() {
     })
 
     saveBut.mousePressed(function () {
-        saveCanvas("drawing", "jpg")
+        // get the current state of the canvas and convert it to blob
+
+        var canvasData = canvas.elt.toDataURL();
+
+        $(document).ready(function () {
+            $.ajax({
+                url: '',
+                type: 'GET',
+                contentType: 'application/json',
+                data: {
+                    canvasData: canvasData
+                },
+                success: function (response) {
+                    console.log("200 thingy yey")
+                },
+                error: function (xhr, status, error) {
+                    console.log("https://i.kym-cdn.com/entries/icons/original/000/008/342/ihave.jpg")
+                }
+
+            })
+
+
+        })
+        // saveCanvas("drawing", "jpg")
     })
 
     if (mouseIsPressed) {
@@ -33,3 +56,4 @@ function draw() {
         line.show()
     }
 }
+
