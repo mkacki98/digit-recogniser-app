@@ -1,6 +1,6 @@
 var lines = []
 var clearBut
-var saveBut
+var predictBut
 var loc = window.location.pathname
 var dir = loc.substring(0, loc.lastIndexOf('/'))
 
@@ -10,7 +10,7 @@ function setup() {
 
     var options = createDiv().style("display: flex")
     clearBut = createButton("Clear image").parent(options)
-    saveBut = createButton("Save image").parent(options)
+    predictBut = createButton("Predict!").parent(options)
 }
 
 function draw() {
@@ -20,10 +20,10 @@ function draw() {
         lines = []
     })
 
-    saveBut.mousePressed(function () {
+    predictBut.mousePressed(function () {
         // get the current state of the canvas and convert it to blob
 
-        var canvasData = canvas.elt.toDataURL();
+        var canvasData = canvas.elt.toDataURL()
 
         $(document).ready(function () {
             $.ajax({
@@ -34,7 +34,7 @@ function draw() {
                     canvasData: canvasData
                 },
                 success: function (response) {
-                    console.log("200 thingy yey")
+                    console.log("GET request was successful.")
                 },
                 error: function (xhr, status, error) {
                     console.log("https://i.kym-cdn.com/entries/icons/original/000/008/342/ihave.jpg")
@@ -44,7 +44,6 @@ function draw() {
 
 
         })
-        // saveCanvas("drawing", "jpg")
     })
 
     if (mouseIsPressed) {
