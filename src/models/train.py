@@ -1,3 +1,7 @@
+import os
+import sys
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
+
 import torch.nn as nn
 import torch
 import numpy as np
@@ -22,7 +26,7 @@ def main():
     criterion = nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(model.parameters(), lr=config.lr)
 
-    train_loader, val_loader, test_loader = create_dataloaders(config.batch_size)
+    train_loader, val_loader, _ = create_dataloaders(config.batch_size)
 
     display_training_examples()
     train_validate(model, config, train_loader, val_loader, optimizer, criterion)

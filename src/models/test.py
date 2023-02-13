@@ -1,6 +1,9 @@
+import os
+import sys
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
+
 import torch
 import argparse
-
 
 def main():
     config = load_config()
@@ -15,7 +18,7 @@ def test(config):
 
     model = torch.load(f"models/{config.model_name}")
     test_loader = torch.load("data/test_loader.pkl")
-
+ 
     with torch.no_grad():
         for data in test_loader:
             images, labels = data
