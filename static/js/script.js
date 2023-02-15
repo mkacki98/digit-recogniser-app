@@ -5,12 +5,12 @@ var loc = window.location.pathname
 var dir = loc.substring(0, loc.lastIndexOf('/'))
 
 function setup() {
-    canvas = createCanvas(280, 280)
+    canvas = createCanvas(200, 200)
     strokeWeight(10)
 
     var options = createDiv().style("display: flex")
-    clearBut = createButton("Clear image").parent(options)
-    predictBut = createButton("Predict!").parent(options)
+    predictBut = createButton("Predict").parent(options)
+    clearBut = createButton("Clear Canvas").parent(options)
 }
 
 function draw() {
@@ -27,24 +27,23 @@ function draw() {
 
         $(document).ready(function () {
             $.ajax({
-                url: '',
+                url: '/predict',
                 type: 'GET',
                 contentType: 'application/json',
                 data: {
                     canvasData: canvasData
                 },
                 success: function (response) {
-                    console.log("GET request was successful.")
+                    console.log(response)
+                    $('#result').text('Predicted Output: ' + response.pred_digit);
                 },
                 error: function (xhr, status, error) {
                     console.log("https://i.kym-cdn.com/entries/icons/original/000/008/342/ihave.jpg")
                 }
-
             })
-
-
         })
     })
+
 
     if (mouseIsPressed) {
         var line = new MyLine
@@ -55,4 +54,3 @@ function draw() {
         line.show()
     }
 }
-

@@ -1,4 +1,25 @@
-body {
-    color: #ee1dee;
-    ;
+html {
+    height: 100%;
+    background: #bebebc;
+    position: absolute;
+}
+
+h1 {
+    position: absolute;
+    top: 30px;
+    left: 250px;
+    font-family: 'Open Sans', Helvetica;
+    color: #807F7D;
+    font-size: 15px;
+    font-weight: 30;
+}
+
+#canvas {
+    position: relative;
+    border: 8px solid;
+    margin: auto;
+    margin-top: 160px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
 }
