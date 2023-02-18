@@ -41,6 +41,38 @@ def load_configs():
         default=10,
     )
 
+    parser.add_argument(
+        "--mlp",
+        help="Architecture of the network.",
+        type=bool,
+        default=True,
+    )
+
+    parser.add_argument(
+        "--cnn",
+        help="Architecture of the network (CNN or MLP).",
+        type=bool,
+        default=False,
+    )
+
     args = parser.parse_args()
 
     return args
+
+def get_model_name(config):
+    """ Get the name of the model to be saved. """
+
+    model_name = ""
+    if config.cnn:
+        model_name += "2cl-1fc_"
+    else:
+        model_name += "2fc_"
+
+    model_name += "bs-" + str(config.batch_size) + "_"
+    model_name += "lr-" + str(config.lr) + "_"
+    model_name += "epoch-" + str(config.epoch_n)
+
+    return model_name
+
+
+
