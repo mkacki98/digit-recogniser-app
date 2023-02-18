@@ -22,7 +22,7 @@ def get_image(canvas):
 def predict_image(image):
     """ Load a model and use it to predict the image. """
 
-    model = torch.load(f"models/2cl-1fc_bs-64_lr-0.001_epoch-10")
+    model = torch.load(f"models/mnist_classifier_base")
     model.eval()
 
     image = image[:,:,0] # (28,28)
