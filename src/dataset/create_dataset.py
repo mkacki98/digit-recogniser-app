@@ -3,17 +3,17 @@ import torch
 from torchvision import datasets
 from torchvision.transforms import ToTensor
 from torch.utils.data import DataLoader, random_split
+import torchvision.transforms as transforms 
 
 
 def create_dataloaders(batch_size):
     """Download the data if it's not at `root` yet and create dataloaders."""
 
     training_data = datasets.MNIST(
-        root="data", train=True, download=True, transform=ToTensor()
-    )
+        root="data", train=True, download=True, transform=transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))]))
 
     test_val_data = datasets.MNIST(
-        root="data", train=False, download=True, transform=ToTensor()
+        root="data", train=False, download=True, transform=transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))])
     )
 
     test_data, val_data = random_split(test_val_data, [3000, 7000])
