@@ -21,13 +21,16 @@ def train_validate(model, config, train_loader, val_loader, optimizer, criterion
 
     run_name = f"lr-{config.lr}_batch-{config.batch_size}_epochs-{config.epoch_n}"
     writer = SummaryWriter(f"logs/fit/{run_name}")
+    model_name = "MLP"
+    if config.cnn:
+        model_name = "CNN"
 
     best_val_loss = np.inf
 
     with trange(config.epoch_n) as t:
         for epoch in t:
 
-            t.set_description(f"batch_size-{config.batch_size}-lr-{config.lr}")
+            t.set_description(f"Training a {model_name} model ") 
 
             training_loss = epoch_train(
                 model, train_loader, optimizer, criterion, writer, epoch

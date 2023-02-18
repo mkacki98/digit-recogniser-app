@@ -1,5 +1,4 @@
 from src.utils import get_image, predict_image
-from torch.nn.functional import normalize
 from flask import Flask, render_template, request, jsonify
 
 app = Flask(__name__)

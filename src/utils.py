@@ -4,6 +4,7 @@ import base64
 import cv2
 import numpy as np
 import torch
+from torch.nn.functional import normalize
 
 from torch.utils.tensorboard import SummaryWriter
 from torchvision.transforms import ToTensor

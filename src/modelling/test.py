@@ -3,12 +3,11 @@ import sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 
 import torch
-import argparse
+from src.utils import load_configs, get_model_name
 
 def main():
-    config = load_config()
+    config = load_configs()
     test(config)
-
 
 def test(config):
     """Test the model on unseen data."""
@@ -16,7 +15,7 @@ def test(config):
     correct = 0
     total = 0
 
-    model = torch.load(f"models/{config.model_name}")
+    model = torch.load(f"models/{get_model_name(config)}")
     test_loader = torch.load("data/test_loader.pkl")
     
     model.eval()
@@ -31,22 +30,6 @@ def test(config):
             correct += (predicted == labels).sum().item()
 
     print(f"Test Accuracy: {100 * round(correct/total, 4)} %.")
-
-
-def load_config():
-
-    parser = argparse.ArgumentParser()
-
-    parser.add_argument(
-        "--model_name",
-        help="Model name to be tested.",
-        type=str,
-        default="mnist_classifier_base",
-    )
-
-    args = parser.parse_args()
-
-    return args
 
 
 if __name__ == "__main__":
