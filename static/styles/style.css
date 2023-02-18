@@ -1,25 +1,35 @@
 html {
     height: 100%;
-    background: #bebebc;
-    position: absolute;
+    background: #69c4e8;
+    position: static;
 }
 
-h1 {
+#app_title{
     position: absolute;
-    top: 30px;
-    left: 250px;
+    left: 230px;
+    top: 5px;
     font-family: 'Open Sans', Helvetica;
-    color: #807F7D;
-    font-size: 15px;
+    color: #07620e;
+    font-size: 30px;
     font-weight: 30;
 }
 
-#canvas {
-    position: relative;
-    border: 8px solid;
-    margin: auto;
-    margin-top: 160px;
-    border-radius: 5px;
-    cursor: pointer;
-    text-align: center;
+#result_digit {
+    position: absolute;
+    left: 230px;
+    top: 60px;
+    font-family: 'Open Sans', Helvetica;
+    color: #f71010;
+    font-size: 15px;
+    font-weight: 20;
+}
+
+#result_prob {
+    position: absolute;
+    left: 230px;
+    top: 80px;
+    font-family: 'Open Sans', Helvetica;
+    color: #5768d7;
+    font-size: 15px;
+    font-weight: 30;
 }

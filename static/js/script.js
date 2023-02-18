@@ -6,7 +6,7 @@ var dir = loc.substring(0, loc.lastIndexOf('/'))
 
 function setup() {
     canvas = createCanvas(200, 200)
-    strokeWeight(10)
+    strokeWeight(13)
 
     var options = createDiv().style("display: flex")
     predictBut = createButton("Predict").parent(options)
@@ -21,7 +21,6 @@ function draw() {
     })
 
     predictBut.mousePressed(function () {
-        // get the current state of the canvas and convert it to blob
 
         var canvasData = canvas.elt.toDataURL()
 
@@ -35,7 +34,8 @@ function draw() {
                 },
                 success: function (response) {
                     console.log(response)
-                    $('#result').text('Predicted Output: ' + response.pred_digit);
+                    $('#result_digit').text('Model predicted: ' + response.pred_digit);
+                    $('#result_prob').text('With probability: ' + Math.round(1000*response.probs[0][int(response.pred_digit)])/10 + "%");
                 },
                 error: function (xhr, status, error) {
                     console.log("https://i.kym-cdn.com/entries/icons/original/000/008/342/ihave.jpg")
