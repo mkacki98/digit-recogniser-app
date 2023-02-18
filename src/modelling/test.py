@@ -18,14 +18,14 @@ def test(config):
 
     model = torch.load(f"models/{config.model_name}")
     test_loader = torch.load("data/test_loader.pkl")
- 
+    
+    model.eval()
     with torch.no_grad():
-        for data in test_loader:
+        for i, data in enumerate(test_loader):            
             images, labels = data
-            images = images.view(images.shape[0], -1)
 
-            predictions = model(images)
-            _, predicted = torch.max(predictions.data, 1)
+            prediction = model(images)
+            _, predicted = torch.max(prediction.data, 1)
 
             total += labels.size(0)
             correct += (predicted == labels).sum().item()
