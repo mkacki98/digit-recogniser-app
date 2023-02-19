@@ -47,17 +47,10 @@ def load_configs():
     )
 
     parser.add_argument(
-        "--mlp",
-        help="Architecture of the network.",
-        type=bool,
-        default=True,
-    )
-
-    parser.add_argument(
-        "--cnn",
-        help="Architecture of the network (CNN or MLP).",
-        type=bool,
-        default=False,
+        "--model",
+        help="Architecture of the model - `mlp` or `cnn`.",
+        type=str,
+        default="mlp",
     )
 
     args = parser.parse_args()
@@ -68,7 +61,7 @@ def get_model_name(config):
     """ Get the name of the model to be saved. """
 
     model_name = ""
-    if config.cnn:
+    if config.model == "cnn":
         model_name += "2cl-1fc_"
     else:
         model_name += "2fc_"

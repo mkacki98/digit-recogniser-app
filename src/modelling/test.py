@@ -14,7 +14,8 @@ def test(config):
 
     correct = 0
     total = 0
-
+    
+    device = "mps" if torch.backends.mps.is_available() else "cpu"
     model = torch.load(f"models/{get_model_name(config)}")
     test_loader = torch.load("data/test_loader.pkl")
     
@@ -22,6 +23,8 @@ def test(config):
     with torch.no_grad():
         for i, data in enumerate(test_loader):            
             images, labels = data
+            images = images.to(device)
+            labels = labels.to(device)
 
             prediction = model(images)
             _, predicted = torch.max(prediction.data, 1)
