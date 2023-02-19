@@ -41,6 +41,9 @@ def train_validate(model, config, train_loader, val_loader, optimizer, criterion
             writer.add_scalar(
                 "epoch val loss", epoch_val_loss, epoch
             )
+            writer.add_hparams(
+                {"bs": config.batch_size, "lr": config.lr}, {"acc": epoch_val_acc, "loss": epoch_val_loss}
+            )
             writer.flush()
 
     if save:

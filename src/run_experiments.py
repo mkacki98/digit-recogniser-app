@@ -27,9 +27,9 @@ def main():
 
     device = "mps" if torch.backends.mps.is_available() else "cpu"
 
-    BATCH_SIZES = [32, 64, 128]
+    BATCH_SIZES = [16, 32, 64, 128]
     LEARNING_RATES = [0.05, 0.01, 0.005, 0.001]
-    MODELS = ["mlp", "cnn"]
+    MODELS = ["cnn", "mlp"]
     epoch_n = 20
 
     N = len(BATCH_SIZES)*len(LEARNING_RATES)*len(MODELS)
@@ -48,11 +48,11 @@ def main():
                     model = MLP()
                 
                 model.to(device)
-                i += 1
 
                 criterion = nn.CrossEntropyLoss()
                 optimizer = torch.optim.Adam(model.parameters(), lr=config.lr)
                 logging.info(f"Run {i} out of {N}.")
+                i += 1
 
                 train_loader, val_loader, _ = create_dataloaders(config.batch_size)
                 train_validate(model, config, train_loader, val_loader, optimizer, criterion, device, save = False)
