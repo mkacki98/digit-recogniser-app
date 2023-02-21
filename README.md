@@ -1,10 +1,6 @@
-# Digit Recogniser
+# Digit Recogniser (work in progress)
 
-In this project I implemented training/testing pipelines, models, monitoring and user facing frontend for the Hello World of machine learning.
-
-
-pip install -r requirements.txt
-pip3 install torch torchvision torchaudio tensorboard
+A hello world app where I compare simple convolutional neural networks and multilayer perceptrons to an unsupervised neuromorphic algorithm. 
 
 # GIF
 
