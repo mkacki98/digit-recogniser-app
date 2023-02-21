@@ -3,7 +3,7 @@ import sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 
 import torch
-from src.utils import load_configs, get_model_name
+from src.utils import load_configs, get_model_name, get_device
 
 def main():
     config = load_configs()
@@ -15,7 +15,7 @@ def test(config):
     correct = 0
     total = 0
     
-    device = "mps" if torch.backends.mps.is_available() else "cpu"
+    device = get_device()
     model = torch.load(f"models/{get_model_name(config)}")
     test_loader = torch.load("data/test_loader.pkl")
     

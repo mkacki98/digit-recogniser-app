@@ -85,8 +85,8 @@ def get_image(canvas):
 
 def predict_image(image):
     """ Load a model and use it to predict the image. """
-    
-    device = "mps" if torch.backends.mps.is_available() else "cpu"
+
+    device = get_device()
 
     model = torch.load("models/mnist_classifier_base")
     model.eval()
@@ -99,3 +99,8 @@ def predict_image(image):
 
     return predictions, torch.argmax(predictions)
 
+def get_device():
+    if torch.cuda.is_available():
+        return "cuda"
+    else:
+        return "cpu"

@@ -12,7 +12,7 @@ from tqdm import trange
 
 from src.dataset.create_dataset import create_dataloaders
 from src.modelling.architectures import MLP, CNN
-from src.utils import load_configs, display_training_examples, get_model_name
+from src.utils import load_configs, display_training_examples, get_model_name, get_device
 
 torch.multiprocessing.set_sharing_strategy("file_system")
 logging.basicConfig(format='%(asctime)s %(message)s', level=logging.INFO)
@@ -175,8 +175,8 @@ def epoch_validate(model, val_loader, criterion, writer, epoch, device):
     return epoch_loss, epoch_acc
 
 def main():
-    device = "mps" if torch.backends.mps.is_available() else "cpu"
 
+    device = get_device()
     config = load_configs()
 
     if config.model == "cnn":

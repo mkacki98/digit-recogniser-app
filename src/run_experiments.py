@@ -10,6 +10,7 @@ import torch.multiprocessing
 from src.modelling.architectures import MLP, CNN
 from src.modelling.train import train_validate
 from src.dataset.create_dataset import create_dataloaders
+from src.utils import get_device
 
 torch.multiprocessing.set_sharing_strategy("file_system")
 logging.basicConfig(format='%(asctime)s %(message)s', level=logging.INFO)
@@ -24,7 +25,7 @@ class Config():
 def main():
     """ Run grid search. """
 
-    device = "mps" if torch.backends.mps.is_available() else "cpu"
+    device = get_device()
 
     BATCH_SIZES = [16, 32, 64, 128]
     LEARNING_RATES = [0.05, 0.01, 0.005, 0.001]
