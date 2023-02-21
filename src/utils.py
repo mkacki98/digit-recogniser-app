@@ -4,12 +4,12 @@ import base64
 import cv2
 import numpy as np
 import torch
-from torch.nn.functional import normalize
 
 from torch.utils.tensorboard import SummaryWriter
 from torchvision.transforms import ToTensor
 from torchvision import datasets
 from torch.utils.data import DataLoader
+from torch.nn.functional import normalize
 
 
 def display_training_examples():
@@ -85,15 +85,17 @@ def get_image(canvas):
 
 def predict_image(image):
     """ Load a model and use it to predict the image. """
+    
+    device = "mps" if torch.backends.mps.is_available() else "cpu"
 
-    model = torch.load(f"models/mnist_classifier_base")
+    model = torch.load("models/mnist_classifier_base")
     model.eval()
 
     image = image[:,:,0] # (28,28)
     image = (torch.from_numpy(image)/1.0)  
     image = torch.unsqueeze(torch.unsqueeze(image, 0), 0) # (1,1,28,28)
 
-    predictions = model(normalize(image))
+    predictions = model(normalize(image).to(device))
 
     return predictions, torch.argmax(predictions)
 

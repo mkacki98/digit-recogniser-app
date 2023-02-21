@@ -7,10 +7,9 @@ import torch.nn as nn
 import torch
 import torch.multiprocessing
 
-from src.modelling.models import MLP, CNN
+from src.modelling.architectures import MLP, CNN
 from src.modelling.train import train_validate
 from src.dataset.create_dataset import create_dataloaders
-from src.utils import get_model_name
 
 torch.multiprocessing.set_sharing_strategy("file_system")
 logging.basicConfig(format='%(asctime)s %(message)s', level=logging.INFO)

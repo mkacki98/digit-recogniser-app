@@ -11,7 +11,7 @@ from torch.utils.tensorboard import SummaryWriter
 from tqdm import trange
 
 from src.dataset.create_dataset import create_dataloaders
-from src.modelling.models import MLP, CNN
+from src.modelling.architectures import MLP, CNN
 from src.utils import load_configs, display_training_examples, get_model_name
 
 torch.multiprocessing.set_sharing_strategy("file_system")
