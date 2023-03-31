@@ -14,7 +14,7 @@ html {
     font-weight: 30;
 }
 
-#result_digit {
+#result_digit_mlp {
     position: absolute;
     left: 230px;
     top: 60px;
@@ -24,10 +24,50 @@ html {
     font-weight: 20;
 }
 
-#result_prob {
+#result_prob_mlp {
     position: absolute;
     left: 230px;
     top: 80px;
+    font-family: 'Open Sans', Helvetica;
+    color: #5768d7;
+    font-size: 15px;
+    font-weight: 30;
+}
+
+#result_digit_cnn {
+    position: absolute;
+    left: 230px;
+    top: 100px;
+    font-family: 'Open Sans', Helvetica;
+    color: #f71010;
+    font-size: 15px;
+    font-weight: 20;
+}
+
+#result_prob_cnn {
+    position: absolute;
+    left: 230px;
+    top: 120px;
+    font-family: 'Open Sans', Helvetica;
+    color: #5768d7;
+    font-size: 15px;
+    font-weight: 30;
+}
+
+#result_digit_nmf {
+    position: absolute;
+    left: 230px;
+    top: 140px;
+    font-family: 'Open Sans', Helvetica;
+    color: #f71010;
+    font-size: 15px;
+    font-weight: 20;
+}
+
+#result_prob_nmf {
+    position: absolute;
+    left: 230px;
+    top: 160px;
     font-family: 'Open Sans', Helvetica;
     color: #5768d7;
     font-size: 15px;

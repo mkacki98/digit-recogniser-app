@@ -34,8 +34,15 @@ function draw() {
                 },
                 success: function (response) {
                     console.log(response)
-                    $('#result_digit').text('Model predicted: ' + response.pred_digit);
-                    $('#result_prob').text('With probability: ' + Math.round(1000*response.probs[0][int(response.pred_digit)])/10 + "%");
+                    $('#result_digit_mlp').text('MLP predicted: ' + response.mlp_digit);
+                    $('#result_prob_mlp').text('With probability: ' + Math.round(1000*response.mlp_probs[int(response.mlp_digit)])/10 + "%");
+                    
+                    $('#result_digit_cnn').text('CNN predicted: ' + response.cnn_digit);
+                    $('#result_prob_cnn').text('With probability: ' + Math.round(1000*response.cnn_probs[int(response.cnn_digit)])/10 + "%");
+                    
+                    $('#result_digit_nmf').text('NMF predicted: ' + response.nmf_digit);
+                    $('#result_prob_nmf').text('With probability: ' + Math.round(1000*response.nmf_probs[int(response.nmf_digit)])/10 + "%");
+                
                 },
                 error: function (xhr, status, error) {
                     console.log("https://i.kym-cdn.com/entries/icons/original/000/008/342/ihave.jpg")
