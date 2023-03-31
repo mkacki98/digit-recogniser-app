@@ -130,15 +130,15 @@ def get_prediction(image, models_predictions, model_name):
     model = torch.load(f"models/{model_name}_base")
     model.eval()
 
-    # Scale image from RGB to [0,1] then normalize, remove 2 channels and expand the tensor
-    transformations = transforms.Compose([
+    # Remove 2 channels, scale image from RGB to [0,1] then normalize and expand the tensor
+    transformations = transforms.Compose([lambda x: x[:,:,0],
         transforms.ToTensor(), 
-        transforms.Normalize((0.1307,), (0.3081,))], lambda x: torch.unsqueeze(x[:,:,0]))
+        transforms.Normalize((0.1307,), (0.3081,)), lambda x: torch.unsqueeze(x, 0)])
     
     image = transformations(image)
 
     if model_name == "nmf":
-        image = image.flatten(start_dim=1, end_dim=2)
+        image = image.flatten(start_dim=1, end_dim=3)
 
         models_predictions[f'{model_name}_probs'] = torch.exp(model(image))[0].detach().numpy().tolist()
         models_predictions[f'{model_name}_digit'] = str(np.argmax(models_predictions[f'{model_name}_probs']))
