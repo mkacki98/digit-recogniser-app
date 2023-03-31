@@ -11,7 +11,6 @@ from torchvision import datasets
 from torch.utils.data import DataLoader
 from torch.nn.functional import normalize
 
-
 def display_training_examples():
     """Display training examples in Tensorboard."""
 
@@ -27,7 +26,6 @@ def display_training_examples():
     writer.add_image("mnist_images", mnist)
     writer.close()
 
-
 def load_configs():
     """Load model parameters from the command line."""
 
@@ -41,7 +39,7 @@ def load_configs():
     )
     parser.add_argument(
         "--epoch_n",
-        help="Number of epochs (full passes through the train data) while training.",
+        help="Number of epochs while training.",
         type=int,
         default=10,
     )
@@ -58,6 +56,10 @@ def load_configs():
         help="Size of the hidden layer in a neuromorphic model.",
         type=int,
         default=100,
+    )
+
+    parser.add_argument(
+        "--hid_epoch_n", help="Number of epochs while training synapses.", type=int, default=10
     )
 
     parser.add_argument(
@@ -93,7 +95,7 @@ def load_configs():
     return args
 
 def get_model_name(config):
-    """ Get the name of the model to be saved. """
+    """Get the name of the model to be saved. """
 
     model_name = ""
     if config.model == "cnn":
@@ -101,16 +103,17 @@ def get_model_name(config):
     elif config.model == "mlp":
         model_name += "2fc_"
     else:
-        model_name += "nmf_1fc"
+        model_name += "nmf_1fc_"
+        model_name += "hid-" + str(config.hid) + "_"
 
     model_name += "bs-" + str(config.batch_size) + "_"
-    model_name += "lr-" + str(config.lr) + "_"
+    model_name += "lr-" + str(round(config.lr,3)) + "_"
     model_name += "epoch-" + str(config.epoch_n)
 
     return model_name
 
 def get_image(canvas):
-    """ Decode the canvas and pass it as OpenCV image. """
+    """Decode the canvas and pass it as OpenCV image. """
 
     decoded_canvas = base64.b64decode(canvas.split(',')[1].encode())
     canvas_as_np = np.frombuffer(decoded_canvas, dtype=np.uint8)
@@ -121,7 +124,7 @@ def get_image(canvas):
     return resized_img
 
 def predict_image(image):
-    """ Load a model and use it to predict the image. """
+    """Load a model and use it to predict the image. """
 
     device = get_device()
 
@@ -139,11 +142,10 @@ def predict_image(image):
 def get_device():
     if torch.cuda.is_available():
         return "cuda"
-    else:
-        return "cpu"
+    return "cpu"
     
-def activation_function(p, synapses):
-    """ Apply activation function on synapses ()"""
+def nmf_activation_fn(p, synapses):
+    """Apply activation function on synapses, f() from (1). """
     
     sign = torch.sign(synapses)
     return sign * torch.absolute(synapses) ** (p-1)
