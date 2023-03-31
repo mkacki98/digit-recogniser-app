@@ -1,4 +1,4 @@
-from src.utils import get_image, predict_image
+from src.utils.utils import get_image, predict_image
 from flask import Flask, render_template, request, jsonify
 
 app = Flask(__name__)
