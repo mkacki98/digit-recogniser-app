@@ -8,9 +8,9 @@ def predict():
     if request.is_json:
         canvas = request.args.get("canvasData")
         image = get_image(canvas)
-        predictions, predicted_digit = predict_image(image)
+        models_predictions = predict_image(image)
 
-        return jsonify({"probs": predictions.tolist(), 'pred_digit': predicted_digit.item()})
+        return jsonify(models_predictions)
 
 @app.route("/")
 def index():        
