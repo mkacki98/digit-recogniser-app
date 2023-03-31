@@ -3,7 +3,7 @@ import sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 
 import torch
-from src.utils import load_configs, get_model_name, get_device
+from utils.utils import load_configs, get_model_name, get_device
 
 def main():
     config = load_configs()

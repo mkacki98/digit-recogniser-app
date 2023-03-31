@@ -1,7 +1,6 @@
 import torch
 
 from torchvision import datasets
-from torchvision.transforms import ToTensor
 from torch.utils.data import DataLoader, random_split
 import torchvision.transforms as transforms 
 
