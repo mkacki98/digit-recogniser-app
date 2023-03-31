@@ -98,7 +98,7 @@ def get_model_name(config):
     model_name = ""
     if config.model == "cnn":
         model_name += "2cl-1fc_"
-    elif config.model = "mlp":
+    elif config.model == "mlp":
         model_name += "2fc_"
     else:
         model_name += "nmf_1fc"
@@ -141,3 +141,9 @@ def get_device():
         return "cuda"
     else:
         return "cpu"
+    
+def activation_function(p, synapses):
+    """ Apply activation function on synapses ()"""
+    
+    sign = torch.sign(synapses)
+    return sign * torch.absolute(synapses) ** (p-1)
