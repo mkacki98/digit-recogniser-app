@@ -48,9 +48,44 @@ def load_configs():
 
     parser.add_argument(
         "--model",
-        help="Architecture of the model - `mlp` or `cnn`.",
+        help="Architecture of the model - `mlp`, `cnn` or `nmf_clf`.",
         type=str,
         default="mlp",
+    )
+
+    parser.add_argument(
+        "--hid",
+        help="Size of the hidden layer in a neuromorphic model.",
+        type=int,
+        default=100,
+    )
+
+    parser.add_argument(
+        "--delta",
+        help="Stength of the inhibition (Anti-Hebbian learning).",
+        type=float,
+        default=0.4,
+    )
+
+    parser.add_argument(
+        "--p",
+        help="Lebesgue norm, used for activation when training synapses.",
+        type=int,
+        default=2,
+    )
+
+    parser.add_argument(
+        "--rank",
+        help="Defines how many hidden units the model considers in a competition.",
+        type=int,
+        default=2,
+    )
+
+    parser.add_argument(
+        "--tau_l",
+        help="Defines the time scale of the process.",
+        type=float,
+        default=1e-30,
     )
 
     args = parser.parse_args()
@@ -63,8 +98,10 @@ def get_model_name(config):
     model_name = ""
     if config.model == "cnn":
         model_name += "2cl-1fc_"
-    else:
+    elif config.model = "mlp":
         model_name += "2fc_"
+    else:
+        model_name += "nmf_1fc"
 
     model_name += "bs-" + str(config.batch_size) + "_"
     model_name += "lr-" + str(config.lr) + "_"
