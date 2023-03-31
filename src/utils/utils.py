@@ -9,7 +9,7 @@ from torch.utils.tensorboard import SummaryWriter
 from torchvision.transforms import ToTensor
 from torchvision import datasets
 from torch.utils.data import DataLoader
-from torch.nn.functional import normalize
+import torchvision.transforms as transforms 
 
 def display_training_examples():
     """Display training examples in Tensorboard."""
@@ -123,21 +123,44 @@ def get_image(canvas):
     
     return resized_img
 
-def predict_image(image):
-    """Load a model and use it to predict the image. """
+def get_prediction(image, models_predictions, model_name):
+    """Load a given model, transform the input image to the right format, 
+    and predict."""
 
-    device = get_device()
-
-    model = torch.load("models/mnist_classifier_base")
+    model = torch.load(f"models/{model_name}_base")
     model.eval()
 
-    image = image[:,:,0] # (28,28)
-    image = (torch.from_numpy(image)/1.0)  
-    image = torch.unsqueeze(torch.unsqueeze(image, 0), 0) # (1,1,28,28)
+    # Scale image from RGB to [0,1] then normalize, remove 2 channels and expand the tensor
+    transformations = transforms.Compose([
+        transforms.ToTensor(), 
+        transforms.Normalize((0.1307,), (0.3081,))], lambda x: torch.unsqueeze(x[:,:,0]))
+    
+    image = transformations(image)
 
-    predictions = model(normalize(image).to(device))
+    if model_name == "nmf":
+        image = image.flatten(start_dim=1, end_dim=2)
 
-    return predictions, torch.argmax(predictions)
+        models_predictions[f'{model_name}_probs'] = torch.exp(model(image))[0].detach().numpy().tolist()
+        models_predictions[f'{model_name}_digit'] = str(np.argmax(models_predictions[f'{model_name}_probs']))
+
+        return
+    
+    models_predictions[f'{model_name}_probs'] = model(image)[0].detach().numpy().tolist()
+    models_predictions[f'{model_name}_digit'] = str(np.argmax(models_predictions[f'{model_name}_probs']))
+
+    return
+
+def predict_image(image):
+    """Run predictions over all of the models and return the dictionary with results."""
+    
+    models_predictions = {}
+
+    # Get predictions from all the models
+    get_prediction(image, models_predictions, "mlp")
+    get_prediction(image, models_predictions, "cnn")
+    get_prediction(image, models_predictions, "nmf")
+
+    return models_predictions
 
 def get_device():
     if torch.cuda.is_available():
