@@ -9,7 +9,8 @@ from torch.utils.tensorboard import SummaryWriter
 from torchvision.transforms import ToTensor
 from torchvision import datasets
 from torch.utils.data import DataLoader
-import torchvision.transforms as transforms 
+import torchvision.transforms as transforms
+
 
 def display_training_examples():
     """Display training examples in Tensorboard."""
@@ -25,6 +26,7 @@ def display_training_examples():
     mnist = torchvision.utils.make_grid(example_data, nrow=16)
     writer.add_image("mnist_images", mnist)
     writer.close()
+
 
 def load_configs():
     """Load model parameters from the command line."""
@@ -59,7 +61,10 @@ def load_configs():
     )
 
     parser.add_argument(
-        "--hid_epoch_n", help="Number of epochs while training synapses.", type=int, default=10
+        "--hid_epoch_n",
+        help="Number of epochs while training synapses.",
+        type=int,
+        default=10,
     )
 
     parser.add_argument(
@@ -94,8 +99,9 @@ def load_configs():
 
     return args
 
+
 def get_model_name(config):
-    """Get the name of the model to be saved. """
+    """Get the name of the model to be saved."""
 
     model_name = ""
     if config.model == "cnn":
@@ -107,52 +113,68 @@ def get_model_name(config):
         model_name += "hid-" + str(config.hid) + "_"
 
     model_name += "bs-" + str(config.batch_size) + "_"
-    model_name += "lr-" + str(round(config.lr,3)) + "_"
+    model_name += "lr-" + str(round(config.lr, 3)) + "_"
     model_name += "epoch-" + str(config.epoch_n)
 
     return model_name
 
-def get_image(canvas):
-    """Decode the canvas and pass it as OpenCV image. """
 
-    decoded_canvas = base64.b64decode(canvas.split(',')[1].encode())
+def get_image(canvas):
+    """Decode the canvas and pass it as OpenCV image."""
+
+    decoded_canvas = base64.b64decode(canvas.split(",")[1].encode())
     canvas_as_np = np.frombuffer(decoded_canvas, dtype=np.uint8)
-    
+
     img = cv2.imdecode(canvas_as_np, flags=1)
-    resized_img = cv2.resize(img,(28,28))
-    
+    resized_img = cv2.resize(img, (28, 28))
+
     return resized_img
 
+
 def get_prediction(image, models_predictions, model_name):
-    """Load a given model, transform the input image to the right format, 
+    """Load a given model, transform the input image to the right format,
     and predict."""
 
     model = torch.load(f"models/{model_name}_base")
     model.eval()
 
     # Remove 2 channels, scale image from RGB to [0,1] then normalize and expand the tensor
-    transformations = transforms.Compose([lambda x: x[:,:,0],
-        transforms.ToTensor(), 
-        transforms.Normalize((0.1307,), (0.3081,)), lambda x: torch.unsqueeze(x, 0)])
-    
+    transformations = transforms.Compose(
+        [
+            lambda x: x[:, :, 0],
+            transforms.ToTensor(),
+            transforms.Normalize((0.1307,), (0.3081,)),
+            lambda x: torch.unsqueeze(x, 0),
+        ]
+    )
+
     image = transformations(image)
 
     if model_name == "nmf":
         image = image.flatten(start_dim=1, end_dim=3)
 
-        models_predictions[f'{model_name}_probs'] = torch.exp(model(image))[0].detach().numpy().tolist()
-        models_predictions[f'{model_name}_digit'] = str(np.argmax(models_predictions[f'{model_name}_probs']))
+        models_predictions[f"{model_name}_probs"] = (
+            torch.exp(model(image))[0].detach().numpy().tolist()
+        )
+        models_predictions[f"{model_name}_digit"] = str(
+            np.argmax(models_predictions[f"{model_name}_probs"])
+        )
 
         return
-    
-    models_predictions[f'{model_name}_probs'] = model(image)[0].detach().numpy().tolist()
-    models_predictions[f'{model_name}_digit'] = str(np.argmax(models_predictions[f'{model_name}_probs']))
+
+    models_predictions[f"{model_name}_probs"] = (
+        model(image)[0].detach().numpy().tolist()
+    )
+    models_predictions[f"{model_name}_digit"] = str(
+        np.argmax(models_predictions[f"{model_name}_probs"])
+    )
 
     return
 
+
 def predict_image(image):
     """Run predictions over all of the models and return the dictionary with results."""
-    
+
     models_predictions = {}
 
     # Get predictions from all the models
@@ -162,13 +184,15 @@ def predict_image(image):
 
     return models_predictions
 
+
 def get_device():
     if torch.cuda.is_available():
         return "cuda"
     return "cpu"
-    
+
+
 def nmf_activation_fn(p, synapses):
-    """Apply activation function on synapses, f() from (1). """
-    
+    """Apply activation function on synapses, f() from (1)."""
+
     sign = torch.sign(synapses)
-    return sign * torch.absolute(synapses) ** (p-1)
+    return sign * torch.absolute(synapses) ** (p - 1)
