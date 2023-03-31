@@ -9,7 +9,7 @@ def predict():
         canvas = request.args.get("canvasData")
         image = get_image(canvas)
         models_predictions = predict_image(image)
-
+        
         return jsonify(models_predictions)
 
 @app.route("/")
