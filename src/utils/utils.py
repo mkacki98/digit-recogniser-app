@@ -46,7 +46,7 @@ def load_configs():
 
     parser.add_argument(
         "--model",
-        help="Architecture of the model - `mlp`, `cnn` or `nmf_clf`.",
+        help="Architecture of the model - `mlp`, `cnn` or `nmf`.",
         type=str,
         default="mlp",
     )

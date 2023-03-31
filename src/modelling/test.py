@@ -5,10 +5,6 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../.
 import torch
 from src.utils.utils import load_configs, get_model_name, get_device
 
-def main():
-    config = load_configs()
-    test(config)
-
 def test(config):
     """Test the model on unseen data."""
 
@@ -42,6 +38,10 @@ def test(config):
             correct += (predicted == labels).sum().item()
 
     print(f"Test Accuracy: {100 * round(correct/total, 4)} %.")
+
+def main():
+    config = load_configs()
+    test(config)
 
 if __name__ == "__main__":
     main()
