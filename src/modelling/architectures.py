@@ -1,5 +1,6 @@
 import torch.nn as nn
 import torch.nn.functional as F
+import torch
 
 class MLP(nn.Module):
     def __init__(self):
@@ -40,3 +41,19 @@ class CNN(nn.Module):
     def forward(self, x):
         out = self.layers(x)
         return F.softmax(out, dim=1)
+       
+class NeuromorphicClassifier(nn.Module):
+    def __init__(self, synapses, n = 1):
+        super().__init__()
+
+        self.synapses = synapses
+
+        hidden_size = synapses.shape[0]
+        output_size = 10
+        
+        self.linear = nn.Linear(hidden_size, output_size, bias=False)
+    
+    def forward(self, v):
+        Wv = F.linear(v, self.synapses, None)
+        h = self.linear(Wv)
+        return F.log_softmax(h, dim = -1)
