@@ -1,6 +1,6 @@
 # Digit Recogniser
 
-In this project, I wanted to see how a neuromorphic algorithm from [1] compares to simple convolutional neural network and multilayer perceptron. I also created a little frontend component where new hand-written digits can be predicted.
+In this project, I wanted to see how a neuromorphic algorithm from [(Krotov, 2019)](https://www.pnas.org/doi/full/10.1073/pnas.1820458116) compares to simple convolutional neural network and multilayer perceptron. I also created a little frontend component where new hand-written digits can be predicted by the three models.
 
 ### 
 
@@ -8,7 +8,7 @@ As commonly said, neural networks are inspired by the brain. However, the main l
 
 Another thing is that newborns learn mostly in an unsupervised way, while most of the deep learning architectures that are changing our world require a vast amount of data (supervised learning). 
 
-Authors try to tackle these two problems by coming up with an unsupervised algorithm that makes use of local update rules to extract features from the data. They then use a single layer (without hidden units, therefore still with local updates) trained in a classical, supervised way for MNIST and CIFAR-100. For more details check [1] and [2].
+Authors try to tackle these two problems by coming up with an unsupervised algorithm that makes use of local update rules to extract features from the data. They then use a single layer (without hidden units, therefore still with local updates) trained in a classical, supervised way for MNIST and CIFAR-100. For more details check see this [MIT lecture](https://www.youtube.com/watch?v=4lY-oAY0aQU).
 
 ### 
 
@@ -17,8 +17,3 @@ This is not a 1-1 replication of the paper, I have changed a few things around a
 # GIF
 
 ![](https://github.com/mkacki98/digit-recogniser-app/blob/main/digit-recogniser-demo.gif)
-
-References:
-
-[1] https://www.pnas.org/doi/full/10.1073/pnas.1820458116
-[2] https://www.youtube.com/watch?v=4lY-oAY0aQU
